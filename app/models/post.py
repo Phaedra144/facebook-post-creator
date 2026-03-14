@@ -10,7 +10,7 @@ class Post(Base):
     __tablename__ = "posts"
 
     id = Column(Integer, primary_key=True)
-    source_id = Column(Integer, ForeignKey("sources.id"), nullable=False)
+    source_id = Column(Integer, ForeignKey("sources.id"), nullable=True)
     summary = Column(Text)
     image_url = Column(String)
     fb_post_id = Column(String)

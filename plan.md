@@ -210,11 +210,13 @@ DATABASE_URL=sqlite:///./app.db
 
 ## Required Permissions (Facebook App)
 
+These scopes must be granted when generating the user access token (e.g. via Graph API Explorer):
+
+- `pages_manage_engagement`
 - `pages_manage_posts`
 - `pages_read_engagement`
-- `pages_show_list`
+- `pages_read_user_engagement`
 
-Generate a long-lived Page Access Token via the [Graph API Explorer](https://developers.facebook.com/tools/explorer/).
 
 ---
 

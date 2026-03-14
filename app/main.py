@@ -5,6 +5,7 @@ from fastapi import FastAPI
 
 import app.models  # noqa: F401 — registers all ORM models with Base.metadata
 from app.database import Base, engine
+from app.routers import posts
 
 
 @asynccontextmanager
@@ -14,6 +15,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Facebook Post Creator", lifespan=lifespan)
+app.include_router(posts.router)
 
 
 @app.get("/")
