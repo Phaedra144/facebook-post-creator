@@ -31,17 +31,15 @@ facebook-poster/
 ├── .env.example
 ├── requirements.txt
 ├── app/
-│   ├── main.py                 # FastAPI app entry point
+│   ├── main.py                 # FastAPI app entry point + startup seeder call
 │   ├── config.py               # Settings via pydantic-settings
 │   ├── database.py             # SQLAlchemy engine + session
 │   ├── models/
 │   │   ├── source.py           # Category + Source ORM models
 │   │   └── post.py             # Post (job) ORM model
 │   ├── schemas/
-│   │   ├── source.py           # Pydantic request/response schemas
-│   │   └── post.py
+│   │   └── post.py             # Pydantic request/response schemas
 │   ├── routers/
-│   │   ├── sources.py          # CRUD endpoints for sources
 │   │   └── posts.py            # Trigger / status endpoints
 │   ├── services/
 │   │   ├── article.py          # newspaper3k extraction
@@ -49,11 +47,7 @@ facebook-poster/
 │   │   ├── image.py            # Image generation (stub / deferred)
 │   │   └── facebook.py         # Facebook Pages API posting
 │   └── migrations/
-│       └── seed_from_js.py     # One-off: JS htmlData → SQLite
-└── tests/
-    ├── test_article.py
-    ├── test_summariser.py
-    └── test_facebook.py
+│       └── seed_from_js.py     # Seeder: JS htmlData → SQLite (runs on every startup)
 ```
 
 ---
@@ -94,17 +88,11 @@ facebook-poster/
 
 ## Data Migration (JS → SQLite)
 
-`app/migrations/seed_from_js.py` is a one-off script that:
+`app/migrations/seed_from_js.py` runs automatically on every app startup (called from `main.py` lifespan). It is idempotent — existing rows are skipped via `INSERT OR IGNORE`.
 
 1. Parses the original `htmlData` JS object (loaded as a Python dict).
 2. Inserts each category entry by its id as a `categories` row.
 3. Inserts each `items` entry as a `sources` row linked to its category.
-
-Run once before first launch:
-
-```bash
-python -m app.migrations.seed_from_js
-```
 
 ---
 
@@ -140,15 +128,6 @@ POST /posts/run  (or scheduled trigger)
 ---
 
 ## API Endpoints
-
-### Sources
-
-| Method | Path | Description |
-|---|---|---|
-| GET | `/sources` | List all sources with category |
-| GET | `/sources/{id}` | Get single source |
-| POST | `/sources` | Add a new source |
-| DELETE | `/sources/{id}` | Remove a source |
 
 ### Posts / Pipeline
 
@@ -258,11 +237,10 @@ python-dotenv
 ## Implementation Order
 
 1. **Project scaffold** — folder structure, `config.py`, `database.py`, `.env.example`
-2. **`facebook.py`** — posting service + integration test against FB sandbox
-3. **DB models**
-4. **Seed script** — migrate JS data to SQLite
-5. **`article.py`** — newspaper3k extraction + unit test
-6. **`summariser.py`** — Groq integration + unit test
-7. **Posts pipeline API** — `/posts/run` wiring up steps 4→5
-8. **`image.py` stub** — placeholder so pipeline does not break before colleague delivers
-9. **End-to-end test** — full run from DB source → Facebook post
+2. **DB models** — `categories`, `sources`, `posts` ORM models
+3. **Seed script** — `seed_from_js.py`, wired into `main.py` lifespan startup
+4. **`article.py`** — newspaper3k extraction
+5. **`summariser.py`** — Groq integration
+6. **`image.py` stub** — placeholder so pipeline does not break before colleague delivers
+7. **`facebook.py`** — Meta Pages API posting
+8. **Posts pipeline API** — `/posts/run` wiring up the full pipeline
