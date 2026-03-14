@@ -238,9 +238,9 @@ python-dotenv
 
 1. **Project scaffold** — folder structure, `config.py`, `database.py`, `.env.example`
 2. **DB models** — `categories`, `sources`, `posts` ORM models
-3. **Seed script** — `seed_from_js.py`, wired into `main.py` lifespan startup
-4. **`article.py`** — newspaper3k extraction
-5. **`summariser.py`** — Groq integration
-6. **`image.py` stub** — placeholder so pipeline does not break before colleague delivers
-7. **`facebook.py`** — Meta Pages API posting
+3. **`facebook.py`** — Meta Pages API posting
+4. **Seed script** — `seed_from_js.py`, wired into `main.py` lifespan startup
+5. **`article.py`** — newspaper3k extraction
+6. **`summariser.py`** — Groq integration
+7. **`image.py` stub** — placeholder so pipeline does not break before colleague delivers
 8. **Posts pipeline API** — `/posts/run` wiring up the full pipeline
