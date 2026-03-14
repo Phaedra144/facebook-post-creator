@@ -47,11 +47,26 @@ async function generateImage(data) {
         boxSizing: "border-box",
       }}
     >
-      <h1 style={{ fontSize: 60, color: textColor, margin: 0, textAlign: "center" }}>
+      <h1
+        style={{
+          fontSize: 60,
+          color: textColor,
+          margin: 0,
+          textAlign: "center",
+        }}
+      >
         {title}
       </h1>
       {subtitle && (
-        <p style={{ fontSize: 30, color: textColor, opacity: 0.7, marginTop: 20, textAlign: "center" }}>
+        <p
+          style={{
+            fontSize: 30,
+            color: textColor,
+            opacity: 0.7,
+            marginTop: 20,
+            textAlign: "center",
+          }}
+        >
           {subtitle}
         </p>
       )}
@@ -75,7 +90,9 @@ async function generateImage(data) {
   console.error(`Image saved to ${outputFile}`);
 }
 
-readStdin().then(generateImage).catch((err) => {
-  console.error(err.message);
-  process.exit(1);
-});
+readStdin()
+  .then(generateImage)
+  .catch((err) => {
+    console.error(err.message);
+    process.exit(1);
+  });

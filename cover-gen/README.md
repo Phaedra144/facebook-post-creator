@@ -13,16 +13,16 @@ npm run build
 
 All fields are optional and fall back to defaults.
 
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `title` | string | `"Hello Satori!"` | Large heading text |
-| `subtitle` | string | `""` | Smaller text below the title |
-| `backgroundColor` | string | `"#ffffff"` | CSS hex colour for the background |
-| `textColor` | string | `"#000000"` | CSS hex colour for the text |
-| `width` | number | `1200` | Output image width in pixels |
-| `height` | number | `630` | Output image height in pixels |
-| `outputFile` | string | `"output.png"` | Path to write the PNG to |
-| `fontFile` | string | Geist Regular from `node_modules` | Path to a non-variable TTF font |
+| Field             | Type   | Default                           | Description                       |
+| ----------------- | ------ | --------------------------------- | --------------------------------- |
+| `title`           | string | `"Hello Satori!"`                 | Large heading text                |
+| `subtitle`        | string | `""`                              | Smaller text below the title      |
+| `backgroundColor` | string | `"#ffffff"`                       | CSS hex colour for the background |
+| `textColor`       | string | `"#000000"`                       | CSS hex colour for the text       |
+| `width`           | number | `1200`                            | Output image width in pixels      |
+| `height`          | number | `630`                             | Output image height in pixels     |
+| `outputFile`      | string | `"output.png"`                    | Path to write the PNG to          |
+| `fontFile`        | string | Geist Regular from `node_modules` | Path to a non-variable TTF font   |
 
 ## Usage from CLI
 
