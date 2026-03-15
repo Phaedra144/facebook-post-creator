@@ -210,11 +210,13 @@ DATABASE_URL=sqlite:///./app.db
 
 ## Required Permissions (Facebook App)
 
+These scopes must be granted when generating the user access token (e.g. via Graph API Explorer):
+
+- `pages_manage_engagement`
 - `pages_manage_posts`
 - `pages_read_engagement`
-- `pages_show_list`
+- `pages_read_user_engagement`
 
-Generate a long-lived Page Access Token via the [Graph API Explorer](https://developers.facebook.com/tools/explorer/).
 
 ---
 
@@ -238,9 +240,9 @@ python-dotenv
 
 1. **Project scaffold** — folder structure, `config.py`, `database.py`, `.env.example`
 2. **DB models** — `categories`, `sources`, `posts` ORM models
-3. **Seed script** — `seed_from_js.py`, wired into `main.py` lifespan startup
-4. **`article.py`** — newspaper3k extraction
-5. **`summariser.py`** — Groq integration
-6. **`image.py` stub** — placeholder so pipeline does not break before colleague delivers
-7. **`facebook.py`** — Meta Pages API posting
+3. **`facebook.py`** — Meta Pages API posting
+4. **Seed script** — `seed_from_js.py`, wired into `main.py` lifespan startup
+5. **`article.py`** — newspaper3k extraction
+6. **`summariser.py`** — Groq integration
+7. **`image.py` stub** — placeholder so pipeline does not break before colleague delivers
 8. **Posts pipeline API** — `/posts/run` wiring up the full pipeline
