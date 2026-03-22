@@ -108,7 +108,7 @@ def seed_sources(db: Session, data: dict[str, Any]) -> None:
         except (ValueError, TypeError):
             category_id = None
 
-        existing = db.query(Source).filter(Source.id == source_id).first()
+        existing = db.query(Source).filter(Source.title == title).first()
         if not existing:
             source = Source(id=source_id, category_id=category_id, title=title)
             db.add(source)
