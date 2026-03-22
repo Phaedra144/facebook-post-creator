@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 from app.database import Base
@@ -23,5 +23,6 @@ class SourceItem(Base):
     source_id = Column(Integer, ForeignKey("sources.id"), nullable=False)
     text = Column(String, nullable=False)
     url = Column(String, nullable=False)
+    article_text = Column(Text, nullable=True)
 
     source = relationship("Source", back_populates="items")

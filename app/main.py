@@ -1,3 +1,4 @@
+import asyncio
 from contextlib import asynccontextmanager
 
 import uvicorn
@@ -8,6 +9,7 @@ import app.models  # noqa: F401 — registers all ORM models with Base.metadata
 from app.database import Base, engine
 from app.migrations.seed_from_js import seed_database
 from app.routers import posts
+from app.tasks.article_fetcher import article_fetcher_loop
 
 
 @asynccontextmanager
@@ -18,7 +20,9 @@ async def lifespan(app: FastAPI):
     with Session(engine) as db:
         seed_database(db)
 
+    task = asyncio.create_task(article_fetcher_loop())
     yield
+    task.cancel()
 
 
 app = FastAPI(title="Facebook Post Creator", lifespan=lifespan)
