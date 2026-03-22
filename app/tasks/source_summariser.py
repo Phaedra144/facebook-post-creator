@@ -9,8 +9,8 @@ from app.services.summariser import summarise_articles
 
 logger = logging.getLogger(__name__)
 
-INTERVAL_SECONDS = 10 * 60  # 10 minutes
-BATCH_SIZE = 5
+INTERVAL_SECONDS = 5 * 60  # 5 minutes
+BATCH_SIZE = 10
 
 
 async def summarise_pending_sources() -> None:
