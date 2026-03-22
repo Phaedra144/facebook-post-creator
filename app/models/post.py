@@ -12,7 +12,7 @@ class Post(Base):
     id = Column(Integer, primary_key=True)
     source_id = Column(Integer, ForeignKey("sources.id"), nullable=True)
     fb_post_text = Column(Text)
-    image_url = Column(String)
+    image_path = Column(String)
     fb_post_id = Column(String)
     status = Column(String, default="pending")  # pending, summarised, image_ready, posted, error
     error_message = Column(Text)

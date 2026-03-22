@@ -27,21 +27,18 @@ You will receive the following inputs:
 
 ### Narrative Framing
 
-- **START** with the {TITLE} using all capital letters → e.g.:
-  "AZ INDEX KIVÉREZTETÉSE"
-  → This sentence must clearly introduce what the post is about.
-
-- **FOLLOW** immediately with a narrative time anchor → e.g.:
-  "2011 októberében járunk...", "2011 októberében..", etc, use different formulas.
+- **START** with a narrative time anchor → e.g.:
+  "2011 októberében járunk...", "2011 októberében..", etc, use different formulas
   → If multiple dates are provided, WEAVE them into the narrative flow (progression, escalation, or repetition over time).
 
 - **IMMERSE** the reader in the moment → create a sense of "reliving" the event.
 
-(Context: "A clear topic introduction followed by a strong time anchor orients the reader and creates emotional engagement.")
+(Context: "A strong opening anchors the reader in time and creates emotional engagement.")
 
 ### Content Transformation
 
 - **REPHRASE** the {SUMMARY} → DO NOT copy directly
+- **WEAVE IN** the {TITLE} naturally into the narrative
 - **MAINTAIN** factual accuracy while enhancing readability and flow
 
 (Context: "Originality and narrative flow are essential for authenticity and engagement.")

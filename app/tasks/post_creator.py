@@ -11,7 +11,7 @@ from app.services.post_creator import create_facebook_post_text
 logger = logging.getLogger(__name__)
 
 INTERVAL_SECONDS = 5 * 60  # 5 minutes
-BATCH_SIZE = 5
+BATCH_SIZE = 3
 
 
 async def create_pending_posts() -> None:

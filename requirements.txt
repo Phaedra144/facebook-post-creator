@@ -7,3 +7,4 @@ lxml[html_clean]
 httpx
 python-dotenv
 openai
+google-genai

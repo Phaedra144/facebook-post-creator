@@ -11,6 +11,7 @@ from app.database import Base, engine
 from app.migrations.seed_from_js import seed_database
 from app.routers import posts
 from app.tasks.article_fetcher import article_fetcher_loop
+from app.tasks.image_generator import image_generator_loop
 from app.tasks.post_creator import post_creator_loop
 from app.tasks.source_summariser import source_summariser_loop
 
@@ -28,13 +29,15 @@ async def lifespan(app: FastAPI):
     with Session(engine) as db:
         seed_database(db)
 
-    task = asyncio.create_task(article_fetcher_loop())
-    summariser_task = asyncio.create_task(source_summariser_loop())
-    post_creator_task = asyncio.create_task(post_creator_loop())
+    # task = asyncio.create_task(article_fetcher_loop())
+    # summariser_task = asyncio.create_task(source_summariser_loop())
+    # post_creator_task = asyncio.create_task(post_creator_loop())
+    image_generator_task = asyncio.create_task(image_generator_loop())
     yield
-    task.cancel()
-    summariser_task.cancel()
-    post_creator_task.cancel()
+    # task.cancel()
+    # summariser_task.cancel()
+    # post_creator_task.cancel()
+    image_generator_task.cancel()
 
 
 app = FastAPI(title="Facebook Post Creator", lifespan=lifespan)
