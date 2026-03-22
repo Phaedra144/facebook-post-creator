@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from contextlib import asynccontextmanager
 
 import uvicorn
@@ -10,6 +11,12 @@ from app.database import Base, engine
 from app.migrations.seed_from_js import seed_database
 from app.routers import posts
 from app.tasks.article_fetcher import article_fetcher_loop
+from app.tasks.source_summariser import source_summariser_loop
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s — %(message)s",
+)
 
 
 @asynccontextmanager
@@ -21,8 +28,10 @@ async def lifespan(app: FastAPI):
         seed_database(db)
 
     task = asyncio.create_task(article_fetcher_loop())
+    # summariser_task = asyncio.create_task(source_summariser_loop())
     yield
     task.cancel()
+    # summariser_task.cancel()
 
 
 app = FastAPI(title="Facebook Post Creator", lifespan=lifespan)
@@ -35,4 +44,4 @@ async def root():
 
 
 if __name__ == "__main__":
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True, log_level="info")
