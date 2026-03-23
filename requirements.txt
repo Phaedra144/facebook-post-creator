@@ -4,6 +4,7 @@ pydantic-settings
 sqlalchemy
 newspaper3k
 lxml[html_clean]
-groq
 httpx
 python-dotenv
+openai
+google-genai
