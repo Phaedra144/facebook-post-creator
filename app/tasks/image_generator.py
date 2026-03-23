@@ -8,7 +8,7 @@ from app.database import SessionLocal
 from app.models.post import Post
 from app.services.cover import CoverGenImageGenerator
 from app.services.gemini import GeminiImageGenerator
-from app.services.post_creator import extract_dates_from_urls
+from app.services.post_creator import HUNGARIAN_MONTHS
 
 logger = logging.getLogger(__name__)
 
@@ -51,9 +51,8 @@ async def generate_pending_images() -> None:
             try:
                 source = post.source
                 title = source.title or "" if source else ""
-                urls = [item.url for item in source.items] if source else []
-                dates = extract_dates_from_urls(urls)
-                subtitle = ", ".join(dates) if dates else ""
+                dates = list(dict.fromkeys(item.published_at for item in source.items if item.published_at)) if source else []
+                subtitle = ", ".join(f"{d.year} {HUNGARIAN_MONTHS[d.month]}" for d in dates)
 
                 # Try primary generator (Gemini if configured, otherwise cover-gen)
                 try:

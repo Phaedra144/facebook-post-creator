@@ -12,6 +12,7 @@ import httpx
 from sqlalchemy.orm import Session
 
 from app.models import Category, Source, SourceItem
+from app.utils import extract_dates_from_urls
 
 logger = logging.getLogger(__name__)
 
@@ -53,17 +54,17 @@ def fetch_nerlist_data() -> dict[str, Any]:
 
         json_str = content[json_start:].strip()
         # This regex matches: word: or word :
-        json_str = re.sub(r'([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:', r'\1"\2":', json_str)
+        json_str = re.sub(r"([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:", r'\1"\2":', json_str)
 
         # Remove trailing commas before } or ]
-        json_str = re.sub(r',(\s*[}\]])', r'\1', json_str)
+        json_str = re.sub(r",(\s*[}\]])", r"\1", json_str)
 
         data = json.loads(json_str)
         return data
 
     except json.JSONDecodeError as e:
         logger.error(f"Failed to parse JSON from JavaScript file: {e}")
-        if 'json_str' in locals():
+        if "json_str" in locals():
             logger.debug(f"Problematic JSON content (first 500 chars): {json_str[:500]}")
         return {}
     except Exception as e:
@@ -121,7 +122,10 @@ def seed_sources(db: Session, data: dict[str, Any]) -> None:
                 url = item.get("url")
                 if not text or not url:
                     continue
-                db.add(SourceItem(source_id=source_id, text=text, url=url))
+                published_at = extract_dates_from_urls([url])[0]
+                db.add(
+                    SourceItem(source_id=source_id, text=text, url=url, published_at=published_at)
+                )
 
     db.commit()
 

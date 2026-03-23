@@ -1,6 +1,7 @@
 import asyncio
 import logging
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
@@ -20,8 +21,11 @@ async def summarise_pending_sources() -> None:
     try:
         sources = (
             db.query(Source)
+            .outerjoin(Source.items)
             .filter(Source.articles_summary.is_(None))
             .filter(Source.items.any(SourceItem.article_text.isnot(None)))
+            .group_by(Source.id)
+            .order_by(func.min(SourceItem.published_at).asc())
             .limit(BATCH_SIZE)
             .all()
         )
@@ -32,11 +36,7 @@ async def summarise_pending_sources() -> None:
         logger.info(f"Source summariser: processing {len(sources)} sources.")
         for source in sources:
             try:
-                article_texts = [
-                    item.article_text
-                    for item in source.items
-                    if item.article_text
-                ]
+                article_texts = [item.article_text for item in source.items if item.article_text]
                 summary = await loop.run_in_executor(None, summarise_articles, article_texts)
                 source.articles_summary = summary
                 logger.info(f"Summarised source {source.id} ({source.title})")

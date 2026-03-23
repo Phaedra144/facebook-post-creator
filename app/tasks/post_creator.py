@@ -1,11 +1,12 @@
 import asyncio
 import logging
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
 from app.models.post import Post
-from app.models.source import Source
+from app.models.source import Source, SourceItem
 from app.services.post_creator import create_facebook_post_text
 
 logger = logging.getLogger(__name__)
@@ -21,8 +22,11 @@ async def create_pending_posts() -> None:
     try:
         sources = (
             db.query(Source)
+            .outerjoin(Source.items)
             .filter(Source.articles_summary.isnot(None))
             .filter(~Source.posts.any())
+            .group_by(Source.id)
+            .order_by(func.min(SourceItem.published_at).asc())
             .limit(BATCH_SIZE)
             .all()
         )
@@ -34,12 +38,14 @@ async def create_pending_posts() -> None:
         for source in sources:
             try:
                 urls = [item.url for item in source.items]
+                dates = list(dict.fromkeys(item.published_at for item in source.items if item.published_at))
                 fb_post_text = await loop.run_in_executor(
                     None,
                     create_facebook_post_text,
                     source.title or "",
                     source.articles_summary,
                     urls,
+                    dates,
                 )
                 post = Post(source_id=source.id, fb_post_text=fb_post_text, status="pending")
                 db.add(post)

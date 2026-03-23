@@ -29,15 +29,15 @@ async def lifespan(app: FastAPI):
     with Session(engine) as db:
         seed_database(db)
 
-    # task = asyncio.create_task(article_fetcher_loop())
-    # summariser_task = asyncio.create_task(source_summariser_loop())
+    task = asyncio.create_task(article_fetcher_loop())
+    summariser_task = asyncio.create_task(source_summariser_loop())
     # post_creator_task = asyncio.create_task(post_creator_loop())
-    image_generator_task = asyncio.create_task(image_generator_loop())
+    # image_generator_task = asyncio.create_task(image_generator_loop())
     yield
-    # task.cancel()
-    # summariser_task.cancel()
+    task.cancel()
+    summariser_task.cancel()
     # post_creator_task.cancel()
-    image_generator_task.cancel()
+    # image_generator_task.cancel()
 
 
 app = FastAPI(title="Facebook Post Creator", lifespan=lifespan)
