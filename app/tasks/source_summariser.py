@@ -10,7 +10,7 @@ from app.services.summariser import summarise_articles
 
 logger = logging.getLogger(__name__)
 
-INTERVAL_SECONDS = 5 * 60  # 5 minutes
+INTERVAL_SECONDS = 20 * 60  # 2 minutes
 BATCH_SIZE = 10
 
 

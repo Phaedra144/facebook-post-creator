@@ -44,6 +44,7 @@ async def create_pending_posts() -> None:
                     create_facebook_post_text,
                     source.title or "",
                     source.articles_summary,
+                    source.category.name if source.category else "",
                     urls,
                     dates,
                 )

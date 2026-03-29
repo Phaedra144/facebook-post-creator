@@ -12,8 +12,8 @@ from app.services.post_creator import HUNGARIAN_MONTHS
 
 logger = logging.getLogger(__name__)
 
-INTERVAL_SECONDS = 5 * 60  # 5 minutes
-BATCH_SIZE = 1
+INTERVAL_SECONDS = 10 * 60  # 5 minutes
+BATCH_SIZE = 3
 
 
 def get_image_generator():

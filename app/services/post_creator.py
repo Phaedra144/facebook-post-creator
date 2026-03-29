@@ -26,7 +26,9 @@ HUNGARIAN_MONTHS = {
 }
 
 
-def create_facebook_post_text(title: str, summary: str, urls: list[str], dates: list[date]) -> str:
+def create_facebook_post_text(
+    title: str, summary: str, category: str, urls: list[str], dates: list[date]
+) -> str:
     date_str = (
         ", ".join(f"{d.year} {HUNGARIAN_MONTHS[d.month]}" for d in dates)
         if dates
@@ -37,8 +39,10 @@ def create_facebook_post_text(title: str, summary: str, urls: list[str], dates: 
     prompt = (
         _prompt_template.replace("{TITLE}", title)
         .replace("{SUMMARY}", summary)
-        .replace("{DATE}", date_str)
+        .replace("{CATEGORY}", category)
+        .replace("{DATES}", date_str)
         .replace("{LINKS}", links_str)
+        .replace("{TODAY}", date.today().strftime("%Y. %B %d."))
     )
 
     client = OpenAI(api_key=settings.groq_api_key, base_url=GROQ_BASE_URL)

@@ -9,7 +9,7 @@ from app.services.article import fetch_article
 
 logger = logging.getLogger(__name__)
 
-INTERVAL_SECONDS = 1 * 60  # 1 minute
+INTERVAL_SECONDS = 20 * 60  # 20 minutes
 BATCH_SIZE = 10
 
 

@@ -14,7 +14,7 @@ class Post(Base):
     fb_post_text = Column(Text)
     image_path = Column(String)
     fb_post_id = Column(String)
-    status = Column(String, default="pending")  # pending, summarised, image_ready, posted, error
+    status = Column(String, default="pending")  # pending, summarised, image_ready, posted, error, not_send
     error_message = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
     posted_at = Column(DateTime)
